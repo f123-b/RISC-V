@@ -1,0 +1,27 @@
+name: verification-ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  reference-model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pytest
+      - run: python -m pytest -q
+
+  upstream-provenance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/fetch_upstream.sh
+      - name: Verify CV32E40P Verilator flow exists
+        run: |
+          test -f .deps/core-v-verif/cv32e40p/sim/core/Makefile
+          grep -q 'sanity-veri-run' .deps/core-v-verif/cv32e40p/sim/core/Makefile
+          git -C .deps/core-v-verif rev-parse HEAD | grep -q '^f3b1f971e0e6b94deae46d279cc50ca390785369$'
