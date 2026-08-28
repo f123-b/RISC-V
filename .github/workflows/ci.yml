@@ -32,6 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: bash scripts/fetch_upstream.sh
+      - name: Patch pinned BSP for modern picolibc
+        run: git -C .deps/core-v-verif apply "${GITHUB_WORKSPACE}/verification/compat/core-v-verif-picolibc.patch"
       - name: Install Verilator and RISC-V toolchain
         run: |
           sudo apt-get update
