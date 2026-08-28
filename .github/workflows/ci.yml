@@ -32,8 +32,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: bash scripts/fetch_upstream.sh
-      - name: Patch pinned BSP for modern picolibc
-        run: git -C .deps/core-v-verif apply "${GITHUB_WORKSPACE}/verification/compat/core-v-verif-picolibc.patch"
+      - name: Patch pinned BSP for modern toolchain
+        run: |
+          git -C .deps/core-v-verif apply "${GITHUB_WORKSPACE}/verification/compat/core-v-verif-picolibc.patch"
+          git -C .deps/core-v-verif apply "${GITHUB_WORKSPACE}/verification/compat/core-v-verif-baremetal-crt0.patch"
       - name: Install repository smoke program
         run: cp verification/programs/cv32e40p_smoke.c .deps/core-v-verif/cv32e40p/tests/programs/custom/hello-world/hello-world.c
       - name: Install Verilator and RISC-V toolchain
