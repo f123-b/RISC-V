@@ -34,11 +34,13 @@ jobs:
       - run: bash scripts/fetch_upstream.sh
       - name: Patch pinned BSP for modern picolibc
         run: git -C .deps/core-v-verif apply "${GITHUB_WORKSPACE}/verification/compat/core-v-verif-picolibc.patch"
+      - name: Install repository smoke program
+        run: cp verification/programs/cv32e40p_smoke.c .deps/core-v-verif/cv32e40p/tests/programs/custom/hello-world/hello-world.c
       - name: Install Verilator and RISC-V toolchain
         run: |
           sudo apt-get update
           sudo apt-get install -y verilator gcc-riscv64-unknown-elf picolibc-riscv64-unknown-elf make g++ python3-pip python3-yaml
-      - name: Run CV32E40P hello-world on Verilator
+      - name: Run CV32E40P architectural smoke test on Verilator
         working-directory: .deps/core-v-verif/cv32e40p/sim/core
         env:
           CV_SW_TOOLCHAIN: /usr
