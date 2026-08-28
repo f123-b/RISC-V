@@ -1,19 +1,11 @@
 /*
  * Minimal CV32E40P architectural smoke program.
  *
- * Purpose: execute real code on the pinned CORE-V Verilator testbench without
- * depending on the 2021 example program's stdio/newlib ABI. Output goes through
- * the testbench's MMIO stdout register, while pass/fail is returned to crt0.
+ * The CORE-V testbench observes the process exit value through the BSP exit
+ * path, so this test deliberately avoids stdio and all hosted-C library calls.
+ * Returning zero means all architectural identity CSRs matched the pinned core.
  */
-#define STDOUT_REG (*(volatile unsigned int *)0x10000000u)
-#define EXP_MISA   0x40001104u
-
-static void puts_mmio(const char *s)
-{
-    while (*s) {
-        STDOUT_REG = (unsigned int)(unsigned char)*s++;
-    }
-}
+#define EXP_MISA 0x40001104u
 
 int main(void)
 {
@@ -32,6 +24,5 @@ int main(void)
     if (marchid   != 0x00000004u) return 3;
     if (mimpid    != 0x00000000u) return 4;
 
-    puts_mmio("CV32E40P SMOKE PASS\n");
     return 0;
 }
