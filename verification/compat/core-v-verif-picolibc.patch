@@ -1,0 +1,14 @@
+diff --git a/cv32e40p/bsp/syscalls.c b/cv32e40p/bsp/syscalls.c
+index 0000000..1111111 100644
+--- a/cv32e40p/bsp/syscalls.c
++++ b/cv32e40p/bsp/syscalls.c
+@@ -25,8 +25,6 @@
+ #include <unistd.h>
+ #include <errno.h>
+ #include <machine/syscall.h>
+ #include <assert.h>
+-#undef errno
+-extern int errno;
+ 
+ /* write to this reg for outputting strings */
+ #define STDOUT_REG 0x10000000
