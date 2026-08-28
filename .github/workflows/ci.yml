@@ -42,5 +42,5 @@ jobs:
           CV_SW_TOOLCHAIN: /usr
           CV_SW_PREFIX: riscv64-unknown-elf-
           CV_SW_MARCH: rv32imc_zicsr_zifencei
-          CFLAGS: -Os -g -static -mabi=ilp32 -march=rv32imc_zicsr_zifencei -Wall -pedantic --specs=picolibc.specs
+          CFLAGS: -Os -g -static -mabi=ilp32 -march=rv32imc_zicsr_zifencei -Wall -pedantic --specs=picolibc.specs -I${{ github.workspace }}/verification/compat
         run: make sanity-veri-run
