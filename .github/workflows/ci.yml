@@ -35,11 +35,11 @@ jobs:
       - name: Install Verilator and RISC-V GCC
         run: |
           sudo apt-get update
-          sudo apt-get install -y verilator gcc-riscv64-unknown-elf make g++ python3-pip
-          python3 -m pip install --user pyyaml
+          sudo apt-get install -y verilator gcc-riscv64-unknown-elf make g++ python3-pip python3-yaml
       - name: Run CV32E40P hello-world on Verilator
         working-directory: .deps/core-v-verif/cv32e40p/sim/core
         env:
           CV_SW_TOOLCHAIN: /usr
           CV_SW_PREFIX: riscv64-unknown-elf-
+          CV_SW_MARCH: rv32imc
         run: make sanity-veri-run
