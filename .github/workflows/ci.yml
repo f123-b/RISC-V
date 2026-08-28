@@ -41,5 +41,5 @@ jobs:
         env:
           CV_SW_TOOLCHAIN: /usr
           CV_SW_PREFIX: riscv64-unknown-elf-
-          CV_SW_MARCH: rv32imc
+          CV_SW_MARCH: rv32imc_zicsr_zifencei
         run: make sanity-veri-run
